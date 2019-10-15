@@ -6,26 +6,42 @@ export default class Habits {
     this.habitsContainer = document.querySelector('.habits');
   }
 
-  createHabit({title, amountInPeriod, amountInPeriodInDays, color}) {
-    let current = false;
+  createHabit({...habitsData}) {
+    habitsData.amountInPeriod = parseInt(habitsData.amountInPeriod) || 0;
+    habitsData.amountInPeriodInDays = parseInt(habitsData.amountInPeriodInDays) || 0;
 
-    if (title && amountInPeriod && amountInPeriodInDays) {
-      if (amountInPeriod > 0 && amountInPeriodInDays > 0) {
-        const CHabit = new Habit({
-          title,
-          amountInPeriod,
-          amountInPeriodInDays,
-          color,
-        });
+    const resultValidation = this.validationHabitsData(habitsData);
 
-        this.habitsContainer.insertBefore(CHabit.habit, this.habitsContainer.firstChild);
+    if (resultValidation) {
+        const CHabit = new Habit(habitsData);
 
-        current = true;
-      }
+        this.insertHabit(CHabit.habit, this.habitsContainer.firstChild);
+
+        return {
+          status: true,
+        };
     }
 
     return {
-      current,
+      status: false,
     };
+  }
+
+  insertHabit(habit, firstCHild) {
+    this.habitsContainer.insertBefore(habit, firstCHild);
+  }
+
+  validationHabitsData(habitsData) {
+    let resultValidation = true;
+
+    if (habitsData.amountInPeriod <= 0) {
+      resultValidation = false;
+    }
+
+    if (habitsData.amountInPeriodInDays <= 0) {
+      resultValidation = false;
+    }
+
+    return resultValidation;
   }
 };

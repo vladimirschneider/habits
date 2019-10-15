@@ -17,9 +17,9 @@ export default class App {
 
         CForm.setCallback('sent', ({status, data}) => {
           if (status) {
-            const {current} = habits.createHabit(data);
+            const createdHabit = habits.createHabit(data);
 
-            if (current) {
+            if (createdHabit.status) {
               CForm.clear();
             }
           }
