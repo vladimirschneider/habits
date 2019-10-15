@@ -1,6 +1,9 @@
 export default class Form {
-  constructor(form) {
+  constructor(form, options) {
     this.form = form;
+    this.options = Object.assign({
+      allRequired: true,
+    }, options);
 
     const {action, method} = this.form;
 
@@ -17,13 +20,20 @@ export default class Form {
       const formData = new FormData(e.target);
 
       const data = {};
+      let resultValidation = true;
 
       formData.forEach((value, key) => data[this.convertStringToCamelCase(key)] = value);
 
-      this.callback.sent({
-        status: true,
-        data
-      });
+      for (let key in data) {
+        if (!this.validate(key, data[key])) resultValidation = false;
+      }
+
+      if (resultValidation) {
+        this.callback.sent({
+          status: true,
+          data
+        });
+      }
     });
   }
 
@@ -37,5 +47,15 @@ export default class Form {
 
   clear() {
     this.form.reset();
+  }
+
+  updateOptions(options) {
+    this.options = Object.assign(this.options, options);
+  }
+
+  validate(fieldName, value) {
+    if (((this.options.fields && this.options.fields[fieldName].isRequired) || this.options.allRequired) && !value) return false;
+
+    return true;
   }
 };
