@@ -21,7 +21,7 @@ export default class Form {
       formData.forEach((value, key) => data[this.convertStringToCamelCase(key)] = value);
 
       this.callback.sent({
-        current: true,
+        status: true,
         data
       });
     });

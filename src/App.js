@@ -15,8 +15,8 @@ export default class App {
 
         const formHabit = new FormHabit(form);
 
-        CForm.setCallback('sent', ({current, data}) => {
-          if (current) {
+        CForm.setCallback('sent', ({status, data}) => {
+          if (status) {
             const {current} = habits.createHabit(data);
 
             if (current) {
