@@ -7,5 +7,75 @@
     <title>Document title</title>
   </head>
   <body>
+    <main>
+      <div class="container">
+        <form class="form" action="/habit" method="POST">
+          <div class="field field--habit">
+            <!-- <label class="field__label" for="title">Habit</label> -->
+            <input class="field__input" type="text" name="title" id="title" placeholder="Meditation" value="Meditation">
+          </div>
+          <div class="fieldset fieldset--wonna-do">
+            <p class="fieldset__legend">I wonna do</p>
+            <div class="fields">
+              <div class="field fields__field">
+                <input class="field__input field__input--radio" type="radio" name="periodicity" id="periodicity-day" value="day" checked>
+                <label class="field__label field__label--radio" for="periodicity-day">Every day</label>
+              </div>
+              <div class="field fields__field">
+                <input class="field__input field__input--radio" type="radio" name="periodicity" id="periodicity-week" value="week">
+                <label class="field__label field__label--radio" for="periodicity-week">Every week</label>
+              </div>
+              <div class="field fields__field">
+                <input class="field__input field__input--radio" type="radio" name="periodicity" id="periodicity-custom" value="custom">
+                <label class="field__label field__label--radio" for="periodicity-custom">Custom</label>
+              </div>
+            </div>
+          </div>
+          <div class="fieldset fieldset--quality">
+            <p class="fieldset__legend">Quality</p>
+            <div class="fields">
+              <div class="field fields__field">
+                <!-- <label class="field__label" for="quality">quality</label> -->
+                <input class="field__input" type="number" name="quality" id="quality" placeholder="2" value="2">
+              </div>
+              <div class="field field--hidden field--days fields__field">
+                <p class="field__pretext">in</p>
+                <input class="field__input field__input--days" type="number" name="quality-in-day" id="quality-in-day" placeholder="1" value="1">
+                <label class="field__label" for="quality-in-day">days</label>
+              </div>
+            </div>
+          </div>
+          <div class="fieldset fieldset--theme">
+            <p class="fieldset__legend">Theme</p>
+            <div class="fields">
+              <div class="field fields__field fields__field--color">
+                <input class="field__input field__input--radio" type="radio" name="color" id="color-tomato" value="tomato" checked>
+                <label class="field__label field__label--color" for="color-tomato" style="background-color: tomato;"></label>
+              </div>
+              <div class="field fields__field fields__field--color">
+                <input class="field__input field__input--radio" type="radio" name="color" id="color-thistle" value="thistle">
+                <label class="field__label field__label--color" for="color-thistle" style="background-color: thistle;"></label>
+              </div>
+              <div class="field fields__field fields__field--color">
+                <input class="field__input field__input--radio" type="radio" name="color" id="color-steelblue" value="steelblue">
+                <label class="field__label field__label--color" for="color-steelblue" style="background-color: steelblue;"></label>
+              </div>
+              <div class="field fields__field fields__field--color">
+                <input class="field__input field__input--radio" type="radio" name="color" id="color-salmon" value="salmon">
+                <label class="field__label field__label--color" for="color-salmon" style="background-color: salmon;"></label>
+              </div>
+            </div>
+          </div>
+          <div class="form__footer">
+            <button class="btn" type="submit">
+              Add habit in my life
+            </button>
+          </div>
+        </form>
+        <div class="habits">
+          <p class="habits__pretext">start 🦄 to be happier</p>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

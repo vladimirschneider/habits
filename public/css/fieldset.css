@@ -1,0 +1,26 @@
+.fieldset {
+  margin: 0;
+  padding: 1.5em;
+
+  border: none;
+}
+
+.fieldset__legend {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.fieldset--wonna-do {
+  background-color: rgb(218, 218, 218);
+  border-top-left-radius: 0.4em;
+  border-top-right-radius: 0.4em;
+}
+
+.fieldset--quality {
+  background-color: rgb(241, 241, 241);
+  border-bottom-left-radius: 0.4em;
+  border-bottom-right-radius: 0.4em;
+}

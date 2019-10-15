@@ -1,0 +1,15 @@
+.fields {
+  display: flex;
+}
+
+.fields__field {
+  margin-right: 1em;
+}
+
+.fields__field--color {
+  width: auto;
+}
+
+.fields__field:last-child {
+  margin-right: 0;
+}

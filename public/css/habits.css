@@ -1,0 +1,6 @@
+.habits {
+  @apply --list-reset;
+
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
