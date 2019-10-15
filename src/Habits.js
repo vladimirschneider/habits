@@ -1,9 +1,11 @@
+import Storage from './Storage';
 import Habit from './Habit';
 
 export default class Habits {
   constructor() {
-    this.habits = [];
     this.habitsContainer = document.querySelector('.habits');
+
+    this.fillHabitsFromClientDB();
   }
 
   createHabit({...habitsData}) {
@@ -13,13 +15,13 @@ export default class Habits {
     const resultValidation = this.validationHabitsData(habitsData);
 
     if (resultValidation) {
-        const CHabit = new Habit(habitsData);
+      const CHabit = new Habit(habitsData);
 
-        this.insertHabit(CHabit.habit, this.habitsContainer.firstChild);
+      this.insertHabit(CHabit.habit, this.habitsContainer.firstChild);
 
-        return {
-          status: true,
-        };
+      return {
+        status: true,
+      };
     }
 
     return {
@@ -43,5 +45,20 @@ export default class Habits {
     }
 
     return resultValidation;
+  }
+
+  fillHabitsFromClientDB() {
+    const storage = new Storage();
+
+    storage.setStores();
+    // storage.getHabitsDB().habits.clear();
+    // storage.getHabitsDB().habits.delete();
+    storage.getHabitsDB().habits.each((item) => {
+      this.createHabit({
+        id: item.id,
+        ...item,
+        fromStorage: true,
+      });
+    });
   }
 };

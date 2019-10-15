@@ -49,6 +49,8 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "dayjs": "^1.8.16",
+    "dexie": "^2.0.4",
     "normalize.css": "^8.0.1"
   },
   "browserslist": [

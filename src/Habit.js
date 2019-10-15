@@ -1,23 +1,39 @@
-export default class Habit {
-  constructor({title, amountInPeriod, amountInPeriodInDays, color = 'tomato'}) {
-    this.title = title;
-    this.amountInPeriod = +amountInPeriod;
-    this.amountInPeriodInDays = +amountInPeriodInDays;
+import Storage from './Storage';
 
-    this.completed = 0;
+export default class Habit {
+  constructor({...habitData}) {
+    this.habitData = habitData;
+    this.title = habitData.title;
+    this.amountInPeriod = habitData.amountInPeriod;
+    this.amountInPeriodInDays = habitData.amountInPeriodInDays;
+    this.color = habitData.color;
+    this.fromStorage = habitData.fromStorage;
+
+    this.completed = this.fromStorage ? this.habitData.completed : 0;
 
     const habit = document.createElement('div');
-    habit.classList.add('habits__item');
-    habit.classList.add('habit');
-    habit.style.backgroundColor = color;
-    this.habit = habit
+    this.habit = habit;
+
+    this.storage = new Storage();
+
+    this.storage.setStores();
+
+    this.habitsStorage = this.storage.getHabitsDB().habits;
+
+    this.create();
+  }
+
+  create() {
+    this.habit.classList.add('habits__item');
+    this.habit.classList.add('habit');
+    this.habit.style.backgroundColor = this.color;
 
     const habitInfo = document.createElement('div');
     habitInfo.classList.add('habit__info');
 
     const habitTitle = document.createElement('p');
     habitTitle.classList.add('habit__title');
-    habitTitle.innerHTML = title;
+    habitTitle.innerHTML = this.title;
 
     const habitQuality = document.createElement('p');
     habitQuality.classList.add('habit__quality');
@@ -32,7 +48,7 @@ export default class Habit {
     habitInfo.appendChild(habitQuality);
     habitInfo.appendChild(habitCompleted);
 
-    habit.appendChild(habitInfo);
+    this.habit.appendChild(habitInfo);
 
     const habitControls = document.createElement('div');
     habitControls.classList.add('habit__controls');
@@ -45,10 +61,6 @@ export default class Habit {
     habitBtnLess.classList.add('habit__btn--less');
     habitBtnLess.innerHTML = 'less';
     this.habitBtnLess = habitBtnLess;
-
-    if (this.completed === 0) {
-      habitBtnLess.disabled = true;
-    }
 
     habitBtnLess.addEventListener('click', () => {
       this.completed--;
@@ -79,16 +91,23 @@ export default class Habit {
     habitRemove.classList.add('habit__remove');
     habitRemove.innerHTML = 'delete';
 
-    habitRemove.addEventListener('click', () => this.habit.remove());
+    habitRemove.addEventListener('click', () => this.remove());
 
     habitBtnsBottom.appendChild(habitRemove);
 
     habitControls.appendChild(habitBtnsBottom);
 
-    habit.appendChild(habitControls);
+    this.habit.appendChild(habitControls);
+
+    if (!this.fromStorage) {
+      this.putToBD();
+    }
+
+    this.updatePeriod();
+    this.update();
   }
 
-  updateCompleted() {
+  update() {
     if (this.completed === 0) {
       this.habitBtnLess.disabled = true;
     } else {
@@ -96,9 +115,60 @@ export default class Habit {
     }
 
     if (this.completed === this.amountInPeriod) {
+      this.habitBtnLarge.disabled = true;
       this.habit.classList.add('habit--completed');
+    } else {
+      this.habitBtnLarge.disabled = false;
+      this.habit.classList.remove('habit--completed');
+    }
+  }
+
+  updateCompleted() {
+    if (this.fromStorage) {
+      this.habitsStorage.update(this.habitData, {
+        completed: this.completed
+      });
     }
 
     this.habitCompleted.innerHTML = `${this.completed} of ${this.amountInPeriod}`;
+
+    this.update();
+  }
+
+  updatePeriod() {
+    const startDate = new Date(this.habitData.startDate).getDate();
+    const finishDate = startDate + this.amountInPeriodInDays;
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    if (today.getDate() >= finishDate) {
+      this.habitsStorage.update(this.habitData, {
+        startDate: today
+      });
+
+      this.completed = 0;
+    }
+  }
+
+  putToBD() {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    this.habitsStorage.put({
+      title: this.title,
+      amountInPeriod: this.amountInPeriod,
+      amountInPeriodInDays: this.amountInPeriodInDays,
+      color: this.color,
+      completed: 0,
+      startDate: today,
+    });
+  }
+
+  remove() {
+    if (this.fromStorage) {
+      this.habit.remove();
+      this.habitsStorage.delete(this.habitData.id);
+    }
   }
 };

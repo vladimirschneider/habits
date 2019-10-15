@@ -12,7 +12,7 @@
   border-radius: 0.4em;
 }
 
-.habit--completed::after {
+/* .habit--completed::after {
   position: absolute;
   top: 0;
   right: 0;
@@ -23,10 +23,10 @@
   content: "";
 
   background-color: rgba(255, 255, 255, 0.6);
-}
+} */
 
-.habit--completed .habit__controls {
-  display: none;
+.habit--completed {
+  opacity: 0.6;
 }
 
 .habits__pretext {
