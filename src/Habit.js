@@ -1,8 +1,8 @@
 export default class Habit {
-  constructor({title, quality, qualityInDay, color}) {
+  constructor({title, amountInPeriod, amountInPeriodInDays, color}) {
     this.title = title;
-    this.quality = +quality;
-    this.qualityInDay = +qualityInDay;
+    this.amountInPeriod = +amountInPeriod;
+    this.amountInPeriodInDays = +amountInPeriodInDays;
 
     this.completed = 0;
 
@@ -21,11 +21,11 @@ export default class Habit {
 
     const habitQuality = document.createElement('p');
     habitQuality.classList.add('habit__quality');
-    habitQuality.innerHTML = `${this.quality} times in ${this.qualityInDay === 7 ? 'week' : `${this.qualityInDay} days`}`;
+    habitQuality.innerHTML = `${this.amountInPeriod} times in ${this.amountInPeriodInDays === 7 ? 'week' : `${this.amountInPeriodInDays} days`}`;
 
     const habitCompleted = document.createElement('p');
     habitCompleted.classList.add('habit__completed');
-    habitCompleted.innerHTML = `${this.completed} of ${this.quality}`;
+    habitCompleted.innerHTML = `${this.completed} of ${this.amountInPeriod}`;
     this.habitCompleted = habitCompleted;
 
     habitInfo.appendChild(habitTitle);
@@ -95,10 +95,10 @@ export default class Habit {
       this.habitBtnLess.disabled = false;
     }
 
-    if (this.completed === this.quality) {
+    if (this.completed === this.amountInPeriod) {
       this.habit.classList.add('habit--completed');
     }
 
-    this.habitCompleted.innerHTML = `${this.completed} of ${this.quality}`;
+    this.habitCompleted.innerHTML = `${this.completed} of ${this.amountInPeriod}`;
   }
 };

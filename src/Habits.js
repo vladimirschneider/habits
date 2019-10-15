@@ -6,15 +6,15 @@ export default class Habits {
     this.habitsContainer = document.querySelector('.habits');
   }
 
-  createHabit({title, quality, qualityInDay, color}) {
+  createHabit({title, amountInPeriod, amountInPeriodInDays, color}) {
     let current = false;
 
-    if (title && quality && qualityInDay) {
-      if (quality > 0) {
+    if (title && amountInPeriod && amountInPeriodInDays) {
+      if (amountInPeriod > 0) {
         const CHabit = new Habit({
           title,
-          quality,
-          qualityInDay,
+          amountInPeriod,
+          amountInPeriodInDays,
           color,
         });
 
