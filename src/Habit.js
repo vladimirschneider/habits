@@ -1,5 +1,5 @@
 export default class Habit {
-  constructor({title, amountInPeriod, amountInPeriodInDays, color}) {
+  constructor({title, amountInPeriod, amountInPeriodInDays, color = 'tomato'}) {
     this.title = title;
     this.amountInPeriod = +amountInPeriod;
     this.amountInPeriodInDays = +amountInPeriodInDays;
