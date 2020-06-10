@@ -1,29 +1,24 @@
-import API from './API';
 import Form from './Form';
-import FormHabit from './FormHabit';
+import HabitsFormUI from './HabitsFormUI';
 import Habits from './Habits';
 
 export default class App {
   constructor() {
-    const forms = document.querySelectorAll('form');
+    const habits = new Habits();
 
-    forms.forEach((form) => {
-      const CForm = new Form(form);
+    const habitsFormElement = document.querySelector('.habits-form');
 
-      if (CForm.action === API.post.habit.action) {
-        const habits = new Habits();
+    const HabitsForm = new Form(habitsFormElement);
 
-        const formHabit = new FormHabit(form);
+    new HabitsFormUI(habitsFormElement);
 
-        CForm.setCallback('sent', ({status, data}) => {
-          if (status) {
-            const createdHabit = habits.createHabit(data);
+    HabitsForm.on('sent', ({status, data}) => {
+      if (status) {
+        const habit = habits.createHabit(data);
 
-            if (createdHabit.status) {
-              CForm.clear();
-            }
-          }
-        });
+        if (habit.status) {
+          HabitsForm.clear();
+        }
       }
     });
   }

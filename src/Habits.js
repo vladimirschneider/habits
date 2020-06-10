@@ -15,9 +15,9 @@ export default class Habits {
     const resultValidation = this.validationHabitsData(habitsData);
 
     if (resultValidation) {
-      const CHabit = new Habit(habitsData);
+      const habit = new Habit(habitsData);
 
-      this.insertHabit(CHabit.habit, this.habitsContainer.firstChild);
+      this.insertHabit(habit.habit, this.habitsContainer.firstChild);
 
       return {
         status: true,
@@ -29,8 +29,8 @@ export default class Habits {
     };
   }
 
-  insertHabit(habit, firstCHild) {
-    this.habitsContainer.insertBefore(habit, firstCHild);
+  insertHabit(habit, firstChild) {
+    this.habitsContainer.insertBefore(habit, firstChild);
   }
 
   validationHabitsData(habitsData) {
@@ -51,8 +51,12 @@ export default class Habits {
     const storage = new Storage();
 
     storage.setStores();
-    // storage.getHabitsDB().habits.clear();
-    // storage.getHabitsDB().habits.delete();
+
+    /*---------------- for clear all habits ----------------|
+    |  storage.getHabitsDB().habits.clear();                |
+    |  storage.getHabitsDB().habits.delete();               |
+    -------------------------------------------------------*/
+
     storage.getHabitsDB().habits.each((item) => {
       this.createHabit({
         id: item.id,

@@ -1,16 +1,8 @@
 export default class Form {
-  constructor(form, options) {
+  constructor(form) {
     this.form = form;
-    this.options = Object.assign({
-      allRequired: true,
-    }, options);
 
-    const {action, method} = this.form;
-
-    this.action = action;
-    this.method = method;
-
-    this.callback = {
+    this.events = {
       sent: () => {},
     };
 
@@ -25,11 +17,11 @@ export default class Form {
       formData.forEach((value, key) => data[this.convertStringToCamelCase(key)] = value);
 
       for (let key in data) {
-        if (!this.validate(key, data[key])) resultValidation = false;
+        if (!data[key]) resultValidation = false;
       }
 
       if (resultValidation) {
-        this.callback.sent({
+        this.event('sent', {
           status: true,
           data
         });
@@ -41,21 +33,19 @@ export default class Form {
     return s.split('-').reduce((str, k) => str ? `${str}${k[0].toUpperCase()}${k.slice(1)}` : str)
   }
 
-  setCallback(event, callback) {
-    this.callback[event] = callback;
+  on(event, callback) {
+    this.events[event] = callback;
+  }
+
+  event(eventName, options) {
+    const event =this.events[eventName];
+
+    if (event) {
+      event(options);
+    }
   }
 
   clear() {
     this.form.reset();
-  }
-
-  updateOptions(options) {
-    this.options = Object.assign(this.options, options);
-  }
-
-  validate(fieldName, value) {
-    if (((this.options.fields && this.options.fields[fieldName].isRequired) || this.options.allRequired) && !value) return false;
-
-    return true;
   }
 };

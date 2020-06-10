@@ -155,7 +155,7 @@ export default class Habit {
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    this.habitsStorage.put({
+    const writable = this.habitsStorage.put({
       title: this.title,
       amountInPeriod: this.amountInPeriod,
       amountInPeriodInDays: this.amountInPeriodInDays,
@@ -163,6 +163,11 @@ export default class Habit {
       completed: 0,
       startDate: today,
     });
+
+    writable.then((key) => {
+      this.fromStorage = true;
+      this.habitData.id = key;
+    })
   }
 
   remove() {

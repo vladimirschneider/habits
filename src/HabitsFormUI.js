@@ -1,4 +1,4 @@
-export default class FormHabit {
+export default class HabitsFormUI {
   constructor(habit) {
     this.habit = habit;
 
